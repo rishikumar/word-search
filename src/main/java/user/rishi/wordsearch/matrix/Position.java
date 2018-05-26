@@ -1,10 +1,12 @@
 package user.rishi.wordsearch.matrix;
 
+import java.util.Objects;
+
 public class Position {
     private int row;
     private int col;
 
-    Position(int row, int col) {
+    public Position(int row, int col) {
         this.row = row;
         this.col = col;
     }
@@ -25,21 +27,18 @@ public class Position {
         return rowDistance + colDistance;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return row == position.row &&
+                col == position.col;
+    }
 
-        if (this == o) {
-            return true;
-        }
+    @Override
+    public int hashCode() {
 
-        if (this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        Position p = (Position) o;
-
-        return this.row == p.row && this.col == p.col;
+        return Objects.hash(row, col);
     }
 }
