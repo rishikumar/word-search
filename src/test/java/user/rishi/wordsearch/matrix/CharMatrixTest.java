@@ -1,10 +1,9 @@
-package user.rishi.wordsearch;
+package user.rishi.wordsearch.matrix;
 
 import org.junit.jupiter.api.Test;
-import user.rishi.wordsearch.matrix.CharMatrix;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import user.rishi.wordsearch.exception.InvalidDataException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class CharMatrixTest {
@@ -16,6 +15,20 @@ class CharMatrixTest {
         CharMatrix matrix = new CharMatrix(data);
         assertFalse(matrix.isWordFound(null));
         assertFalse(matrix.isWordFound("blah"));
+    }
+
+    @Test
+    void testInvalidMatrixData() {
+        final char[][] data1 = {{'A', 'B'}};
+        assertThrows(InvalidDataException.class, () -> new CharMatrix(data1));
+
+        // test mismatch in the number of columns - this results in an invalid matrix
+        final char[][] data2 = new char[][]{
+            {'a', 'b'},
+            {'a', 'b', 'c'}
+        };
+
+        assertThrows(InvalidDataException.class, () -> new CharMatrix(data2));
     }
 
     @Test
@@ -32,7 +45,7 @@ class CharMatrixTest {
         assertFalse(matrix.isWordFound("wxyz"));
     }
 
-        @Test
+    @Test
     void testNoDuplicateChars() {
         char[][] data = {
             {'a', 'b', 'c'},
@@ -96,7 +109,6 @@ class CharMatrixTest {
         // found
         assertTrue(matrix.isWordFound("biic"));
         assertTrue(matrix.isWordFound("beiii"));
-
 
         // not found
         assertFalse(matrix.isWordFound("biib"));

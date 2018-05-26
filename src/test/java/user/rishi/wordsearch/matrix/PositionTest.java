@@ -1,7 +1,6 @@
-package user.rishi.wordsearch;
+package user.rishi.wordsearch.matrix;
 
 import org.junit.jupiter.api.Test;
-import user.rishi.wordsearch.matrix.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

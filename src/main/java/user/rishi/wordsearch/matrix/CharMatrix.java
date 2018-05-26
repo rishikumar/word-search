@@ -1,20 +1,22 @@
 package user.rishi.wordsearch.matrix;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import user.rishi.wordsearch.exception.InvalidDataException;
+import user.rishi.wordsearch.utility.Functional;
+
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CharMatrix {
-    private char[][] data;
+    private Pattern VALID_ELEMENT_PATTERN = Pattern.compile("[a-z]");
 
     // This map is used to keep track of the positions of each letter in the matrix. this is used to query the matrix
     // for the positions of letters
     private Map<Character, List<Position>> characterIndex;
 
     public CharMatrix(char[][] data) {
-        this.data = validateData(data);
+        validateData(data);
+
         this.characterIndex = buildCharacterIndex(data);
     }
 
@@ -24,10 +26,30 @@ public class CharMatrix {
         return paths.size() > 0;
     }
 
-    private char[][] validateData(char[][] data) {
+    private void validateData(char[][] data) {
         // TODO: Validate that the data contains consistent values for rows and columns.
-        // TODO: Validate that all characters are lowecase letters - e.g. [a-z]
-        return data;
+        // TODO: Validate that all characters are lowercase letters - e.g. [a-z]
+
+        if (data == null || data.length == 0) {
+            // nothing else to validate at this point...
+            return;
+        }
+
+        int numColumns = data[0].length;
+
+        // check for mismatch in number of columns on each row
+        boolean isMismatch = Arrays.stream(data).anyMatch(a -> a.length != numColumns);
+        if (isMismatch) {
+            throw new InvalidDataException("Dimension mismatch: Found an inconsistent number of columns");
+        }
+
+        boolean allMatchPattern =
+            Functional.toFlatCharStream(data).allMatch(e -> VALID_ELEMENT_PATTERN.matcher(Character.toString(e)).matches());
+
+        if (!allMatchPattern) {
+            throw new InvalidDataException("Invalid character passed into the CharMatrix - only supports [a-z].");
+        }
+
     }
 
     private Map<Character, List<Position>> buildCharacterIndex(char[][] data) {

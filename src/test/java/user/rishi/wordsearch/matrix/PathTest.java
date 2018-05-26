@@ -1,8 +1,6 @@
-package user.rishi.wordsearch;
+package user.rishi.wordsearch.matrix;
 
 import org.junit.jupiter.api.Test;
-import user.rishi.wordsearch.matrix.Path;
-import user.rishi.wordsearch.matrix.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +18,7 @@ class PathTest {
 
         List<Position> positions = path.getPositions();
 
-        Throwable exception = assertThrows(UnsupportedOperationException.class, () -> {
-            positions.add(new Position(1, 3));
-        });
-
-        assertEquals(UnsupportedOperationException.class, exception.getClass());
+        assertThrows(UnsupportedOperationException.class, () -> positions.add(new Position(1, 3)));
     }
 
     @Test
