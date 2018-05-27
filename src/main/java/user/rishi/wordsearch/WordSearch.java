@@ -1,12 +1,16 @@
 package user.rishi.wordsearch;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import user.rishi.wordsearch.matrix.CharMatrix;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WordSearch {
+    private final static Log logger = LogFactory.getLog(WordSearch.class);
 
     private CharMatrix matrix;
 
@@ -31,10 +35,17 @@ public class WordSearch {
                 {'a', 'e', 'i'}
         };
 
-        List<String> inputWords = Arrays.asList("efi", "edh", "fii", "fih", "ghebc", "z");
+//        logger.info("Input Matrix: " + Arrays.deepToString(data));
 
         WordSearch wordSearch = new WordSearch(data);
-        wordSearch.findMatchingWords(inputWords).forEach(System.out::println);
+        logger.info("Input Matrix: " + wordSearch.matrix);
+
+        List<String> inputWords = Arrays.asList("efi", "edh", "fii", "fih", "ghebc", "z");
+        logger.info("Input words: " + inputWords);
+
+        List<String> matchingWords = wordSearch.findMatchingWords(inputWords).collect(Collectors.toList());
+
+        logger.info("Matching words: " + matchingWords);
     }
 
 }

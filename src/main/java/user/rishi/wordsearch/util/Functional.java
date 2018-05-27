@@ -1,4 +1,4 @@
-package user.rishi.wordsearch.utility;
+package user.rishi.wordsearch.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

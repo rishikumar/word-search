@@ -1,7 +1,7 @@
 package user.rishi.wordsearch.matrix;
 
 import user.rishi.wordsearch.exception.InvalidDataException;
-import user.rishi.wordsearch.utility.Functional;
+import user.rishi.wordsearch.util.Functional;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 public class CharMatrix {
     private Pattern VALID_ELEMENT_PATTERN = Pattern.compile("[a-z]");
 
+    private char[][] data;
+
     // This map is used to keep track of the positions of each letter in the matrix. this is used to query the matrix
     // for the positions of letters
     private Map<Character, List<Position>> characterIndex;
@@ -17,6 +19,7 @@ public class CharMatrix {
     public CharMatrix(char[][] data) {
         validateData(data);
 
+        this.data = data;
         this.characterIndex = buildCharacterIndex(data);
     }
 
@@ -27,9 +30,6 @@ public class CharMatrix {
     }
 
     private void validateData(char[][] data) {
-        // TODO: Validate that the data contains consistent values for rows and columns.
-        // TODO: Validate that all characters are lowercase letters - e.g. [a-z]
-
         if (data == null || data.length == 0) {
             // nothing else to validate at this point...
             return;
@@ -110,4 +110,18 @@ public class CharMatrix {
         return candidates;
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder msg = new StringBuilder("\n");
+
+        for (char[] row : data) {
+            for (char ch : row) {
+                msg.append(String.format("%5s", ch));
+            }
+            msg.append("\n");
+        }
+
+        return msg.toString();
+    }
 }

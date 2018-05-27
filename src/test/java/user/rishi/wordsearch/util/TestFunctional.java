@@ -1,4 +1,4 @@
-package user.rishi.wordsearch.utility;
+package user.rishi.wordsearch.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
