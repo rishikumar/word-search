@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
 public class CharMatrix {
     private Pattern VALID_ELEMENT_PATTERN = Pattern.compile("[a-z]");
 
@@ -23,15 +24,52 @@ public class CharMatrix {
         this.characterIndex = buildCharacterIndex(data);
     }
 
-    public boolean isWordFound(String word) {
-        List<Path> paths = findPaths(word);
+    public boolean matchByMatrixDistance(String word) {
+        if (word == null || word.length() == 0) {
+            return false;
+        }
 
-        return paths.size() > 0;
+        char[] letters = word.toCharArray();
+
+        char current = letters[0];
+
+        // The positions of the first characters become the candidate paths that we want to inspect for each
+        // subsequent character
+        List<Position> positions = characterIndex.get(current);
+
+        if (positions == null || positions.size() == 0) {
+            return false;
+        }
+
+        List<Path> candidates = positions.stream().map(Path::new).collect(Collectors.toList());
+
+        // for all subsequent characters
+        for (int i = 1; i < letters.length; i++) {
+            List<Path> viableCandidates = new ArrayList<>();
+            current = letters[i];
+            positions = characterIndex.computeIfAbsent(current, k -> new ArrayList<>());
+
+            // loop through all of their positions in the matrix
+            for (Position position : positions) {
+
+                // for all path candidates look up their distance to the given position add them to the list of path
+                // candidates to move forward with
+                for (Path path : candidates) {
+                    if (path.distanceTo(position) == 1) {
+                        viableCandidates.add(Path.fromPath(path, position));
+                    }
+                }
+            }
+
+            // the viable candidates become the list of candidates to process in the next loop
+            candidates = viableCandidates;
+        }
+
+        return candidates.size() > 0;
     }
 
     private void validateData(char[][] data) {
         if (data == null || data.length == 0) {
-            // nothing else to validate at this point...
             return;
         }
 
@@ -63,51 +101,6 @@ public class CharMatrix {
         }
 
         return result;
-    }
-
-
-    private List<Path> findPaths(String word) {
-        if (word == null || word.length() == 0) {
-            return new ArrayList<>();
-        }
-
-        char[] letters = word.toCharArray();
-
-        char current = letters[0];
-
-        // The positions of the first characters become the candidate paths that we want to inspect for each
-        // subsequent character
-        List<Position> positions = characterIndex.get(current);
-
-        if (positions == null || positions.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<Path> candidates = positions.stream().map(Path::new).collect(Collectors.toList());
-
-        // for all subsequent characters
-        for (int i = 1; i < letters.length; i++) {
-            List<Path> viableCandidates = new ArrayList<>();
-            current = letters[i];
-            positions = characterIndex.computeIfAbsent(current, k -> new ArrayList<>());
-
-            // loop through all of their positions in the matrix
-            for (Position position : positions) {
-
-                // for all path candidates look up their distance to the given position add them to the list of path
-                // candidates to move forward with
-                for (Path path : candidates) {
-                    if (path.distanceTo(position) == 1) {
-                        viableCandidates.add(Path.fromPath(path, position));
-                    }
-                }
-            }
-
-            // the viable candidates become the list of candidates to process in the next loop
-            candidates = viableCandidates;
-        }
-
-        return candidates;
     }
 
 

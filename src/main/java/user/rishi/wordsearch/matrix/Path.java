@@ -45,7 +45,6 @@ public class Path {
 
         // determine the distance of the last position in the list to the new position.
         Position lastPosition = positions.get(positions.size() - 1);
-
         return lastPosition.distanceTo(position);
     }
 

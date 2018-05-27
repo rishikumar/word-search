@@ -13,8 +13,8 @@ class CharMatrixTest {
         char[][] data = {};
 
         CharMatrix matrix = new CharMatrix(data);
-        assertFalse(matrix.isWordFound(null));
-        assertFalse(matrix.isWordFound("blah"));
+        assertFalse(matrix.matchByMatrixDistance(null));
+        assertFalse(matrix.matchByMatrixDistance("blah"));
     }
 
     @Test
@@ -40,9 +40,9 @@ class CharMatrixTest {
         };
 
         CharMatrix matrix = new CharMatrix(data);
-        assertFalse(matrix.isWordFound("z"));
-        assertFalse(matrix.isWordFound("zzzz"));
-        assertFalse(matrix.isWordFound("wxyz"));
+        assertFalse(matrix.matchByMatrixDistance("z"));
+        assertFalse(matrix.matchByMatrixDistance("zzzz"));
+        assertFalse(matrix.matchByMatrixDistance("wxyz"));
     }
 
     @Test
@@ -56,23 +56,23 @@ class CharMatrixTest {
         CharMatrix matrix = new CharMatrix(data);
 
         // left to right
-        assertTrue(matrix.isWordFound("def"));
+        assertTrue(matrix.matchByMatrixDistance("def"));
 
         // right to left
-        assertTrue(matrix.isWordFound("cba"));
+        assertTrue(matrix.matchByMatrixDistance("cba"));
 
         // top to bottom
-        assertTrue(matrix.isWordFound("cfi"));
+        assertTrue(matrix.matchByMatrixDistance("cfi"));
 
         // bottom to top
-        assertTrue(matrix.isWordFound("gda"));
+        assertTrue(matrix.matchByMatrixDistance("gda"));
 
         // mixed directions
-        assertTrue(matrix.isWordFound("ade"));
-        assertTrue(matrix.isWordFound("bed"));
-        assertTrue(matrix.isWordFound("cfe"));
-        assertTrue(matrix.isWordFound("befc"));
-        assertTrue(matrix.isWordFound("feda"));
+        assertTrue(matrix.matchByMatrixDistance("ade"));
+        assertTrue(matrix.matchByMatrixDistance("bed"));
+        assertTrue(matrix.matchByMatrixDistance("cfe"));
+        assertTrue(matrix.matchByMatrixDistance("befc"));
+        assertTrue(matrix.matchByMatrixDistance("feda"));
     }
 
     @Test
@@ -86,14 +86,14 @@ class CharMatrixTest {
         CharMatrix matrix = new CharMatrix(data);
 
         // found
-        assertTrue(matrix.isWordFound("abe"));
-        assertTrue(matrix.isWordFound("bef"));
-        assertTrue(matrix.isWordFound("fjf"));
-        assertTrue(matrix.isWordFound("febe"));
+        assertTrue(matrix.matchByMatrixDistance("abe"));
+        assertTrue(matrix.matchByMatrixDistance("bef"));
+        assertTrue(matrix.matchByMatrixDistance("fjf"));
+        assertTrue(matrix.matchByMatrixDistance("febe"));
 
         // not found
-        assertFalse(matrix.isWordFound("aej"));
-        assertFalse(matrix.isWordFound("jfbdbcz"));
+        assertFalse(matrix.matchByMatrixDistance("aej"));
+        assertFalse(matrix.matchByMatrixDistance("jfbdbcz"));
     }
 
     @Test
@@ -107,10 +107,10 @@ class CharMatrixTest {
         CharMatrix matrix = new CharMatrix(data);
 
         // found
-        assertTrue(matrix.isWordFound("biic"));
-        assertTrue(matrix.isWordFound("beiii"));
+        assertTrue(matrix.matchByMatrixDistance("biic"));
+        assertTrue(matrix.matchByMatrixDistance("beiii"));
 
         // not found
-        assertFalse(matrix.isWordFound("biib"));
+        assertFalse(matrix.matchByMatrixDistance("biib"));
     }
 }

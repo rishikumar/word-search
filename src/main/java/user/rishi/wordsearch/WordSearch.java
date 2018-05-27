@@ -24,10 +24,10 @@ public class WordSearch {
         }
 
         // filter out the words that match
-        return words.stream().filter(this.matrix::isWordFound);
+        return words.stream().filter(matrix::matchByMatrixDistance);
     }
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         char[][] data = new char[][]{
                 {'a', 'b', 'c'},
                 {'d', 'e', 'f'},
@@ -35,16 +35,13 @@ public class WordSearch {
                 {'a', 'e', 'i'}
         };
 
-//        logger.info("Input Matrix: " + Arrays.deepToString(data));
-
         WordSearch wordSearch = new WordSearch(data);
-        logger.info("Input Matrix: " + wordSearch.matrix);
+        logger.info("Input CharMatrix: " + wordSearch.matrix);
 
-        List<String> inputWords = Arrays.asList("efi", "edh", "fii", "fih", "ghebc", "z");
+        List<String> inputWords = Arrays.asList("efi", "edh", "fii", "fih", "ghebc", "z", "fiha");
         logger.info("Input words: " + inputWords);
 
         List<String> matchingWords = wordSearch.findMatchingWords(inputWords).collect(Collectors.toList());
-
         logger.info("Matching words: " + matchingWords);
     }
 
