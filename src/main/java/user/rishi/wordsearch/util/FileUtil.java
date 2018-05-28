@@ -8,6 +8,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileUtil {
+    /**
+     * Takes a given matrix file location path and converts it to a two dimensional character array.
+     * Each row in the file is represented by a separate line and all elements are stored in a comma-separated format
+     * within each line. For example:
+     *
+     *      a,b,c,d
+     *      q,r,a,b
+     *      w,o,r,l
+     *      t,z,e,b
+     *
+     * @param path the path of the file
+     * @return two dimensional Character Matrix
+     */
     public static Character[][] getMatrixData(String path) {
         List<String> lines;
 

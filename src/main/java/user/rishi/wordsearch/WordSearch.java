@@ -11,15 +11,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Main class for the application
+ */
 public class WordSearch {
     private final static Log log = LogFactory.getLog(WordSearch.class);
 
-    private CharMatrix matrix;
-
-    private WordSearch(Character[][] data) {
-        this.matrix = new CharMatrix(data);
-    }
-
+    /**
+     *
+     * @param args
+     */
     public static void main(String... args) {
         Stream.of(args).forEach(log::debug);
 
@@ -27,12 +28,13 @@ public class WordSearch {
         List<String> words = StringUtil.fromCommaSeparatedString(cl.getOptionValue("words"));
         Character[][] matrixData = FileUtil.getMatrixData(cl.getOptionValue("matrix-path"));
 
-        WordSearch wordSearch = new WordSearch(matrixData);
-        log.info("Input Matrix: " + wordSearch.matrix);
+        CharMatrix matrix = new CharMatrix(matrixData);
+
+        log.info("Input Matrix: " + matrix);
         log.info("Input Words: " + words);
 
         List<String> matchingWords
-            = words.stream().filter(wordSearch.matrix::matchByMatrixDistance).collect(Collectors.toList());
+            = words.stream().filter(matrix::matchByMatrixDistance).collect(Collectors.toList());
 
         log.info("Matching Words: " + matchingWords);
     }

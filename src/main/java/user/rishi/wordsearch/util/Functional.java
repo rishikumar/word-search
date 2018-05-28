@@ -19,8 +19,4 @@ public class Functional {
         });
     }
 
-    public static Stream<Character> toCharacterStream(String data) {
-        return data.chars().mapToObj(c -> (char) c);
-    }
-
 }

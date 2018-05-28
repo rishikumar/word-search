@@ -5,7 +5,6 @@ import user.rishi.wordsearch.exception.InvalidDataException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class CharMatrixTest {
 
     @Test

@@ -6,15 +6,31 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * An extension of the base Matrix class for Character sequence searches
+ */
 public class CharMatrix extends Matrix<Character> {
     private static Pattern VALID_ELEMENT_PATTERN = Pattern.compile("[a-z]");
     private static Predicate<Character> elementValidator
         = ch -> VALID_ELEMENT_PATTERN.matcher(Character.toString(ch)).matches();
 
+    /**
+     * Constructor which invokes the parent constructor with a pre-defined element validator
+     * @param data A 2 dimensional array of Characters
+     */
     public CharMatrix(Character[][] data) {
         super(data, elementValidator);
     }
 
+    /**
+     * This method determines the provided word is in the matrix as a sequential adjacent collection of horizontally or
+     * vertically neighboring elements. This method leverages a map of each character to the positions it occupies
+     * in the matrix. It builds a set of candidate word paths as it traverses the letters of the word, eliminating
+     * paths that are not adjacent. Two elements are 1 unit of distance from each other if they are horizontally or
+     * vertically adjacent.
+     * @param word an input word to test against the matrix
+     * @return true if the word is found, false otherwise
+     */
     public boolean matchByMatrixDistance(String word) {
         if (word == null || word.length() == 0) {
             return false;
