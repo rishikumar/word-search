@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
 group 'user.rishi'
@@ -7,7 +9,7 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-apply plugin: 'application'
+//apply plugin: 'application'
 mainClassName = "user.rishi.wordsearch.WordSearch"
 
 repositories {
@@ -17,6 +19,7 @@ repositories {
 dependencies {
     compile 'log4j:log4j:1.2.17'
     compile 'commons-logging:commons-logging:1.2'
+    compile 'commons-cli:commons-cli:1.4'
 
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'

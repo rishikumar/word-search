@@ -12,15 +12,15 @@ public class Functional {
      * @param data the input 2D array
      * @return A Stream<Character> objects representing each element in the array.
      */
-    public static Stream<Character> toFlatCharStream(char[][] data) {
+    public static <T> Stream<T> toFlatStream(T[][] data) {
         return Arrays.stream(data).flatMap(row -> {
-            List<Character> records = new ArrayList<>();
-
-            for (char ch : row) {
-                records.add(ch);
-            }
-
+            List<T> records = new ArrayList<>(Arrays.asList(row));
             return records.stream();
         });
     }
+
+    public static Stream<Character> toCharacterStream(String data) {
+        return data.chars().mapToObj(c -> (char) c);
+    }
+
 }

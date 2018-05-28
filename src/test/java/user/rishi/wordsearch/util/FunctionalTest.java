@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class TestFunctional {
+class FunctionalTest {
 
     @Test
     void testToFlatCharStream() {
-        char[][] data = {
+        Character[][] data = {
             {'a', 'b'},
             {'c', 'd'}
         };
 
-        Stream<Character> stream = Functional.toFlatCharStream(data);
+        Stream<Character> stream = Functional.toFlatStream(data);
 
         List<Character> l = stream.collect(Collectors.toList());
 

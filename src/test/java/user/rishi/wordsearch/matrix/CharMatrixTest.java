@@ -10,7 +10,7 @@ class CharMatrixTest {
 
     @Test
     void testEmptyMatrix() {
-        char[][] data = {};
+        Character[][] data = {};
 
         CharMatrix matrix = new CharMatrix(data);
         assertFalse(matrix.matchByMatrixDistance(null));
@@ -18,22 +18,14 @@ class CharMatrixTest {
     }
 
     @Test
-    void testInvalidMatrixData() {
-        final char[][] data1 = {{'A', 'B'}};
+    void testInvalidElements() {
+        final Character[][] data1 = {{'A', 'B'}};
         assertThrows(InvalidDataException.class, () -> new CharMatrix(data1));
-
-        // test mismatch in the number of columns - this results in an invalid matrix
-        final char[][] data2 = new char[][]{
-            {'a', 'b'},
-            {'a', 'b', 'c'}
-        };
-
-        assertThrows(InvalidDataException.class, () -> new CharMatrix(data2));
     }
 
     @Test
     void testMissingChars() {
-        char[][] data = {
+        Character[][] data = {
             {'a', 'b', 'c'},
             {'d', 'e', 'f'},
             {'g', 'h', 'i'}
@@ -47,7 +39,7 @@ class CharMatrixTest {
 
     @Test
     void testNoDuplicateChars() {
-        char[][] data = {
+        Character[][] data = {
             {'a', 'b', 'c'},
             {'d', 'e', 'f'},
             {'g', 'h', 'i'}
@@ -77,7 +69,7 @@ class CharMatrixTest {
 
     @Test
     void testDuplicateCharsInMatrix() {
-        char[][] data = {
+        Character[][] data = {
             {'a', 'b', 'c'},
             {'b', 'e', 'f'},
             {'e', 'f', 'j'}
@@ -98,7 +90,7 @@ class CharMatrixTest {
 
     @Test
     void testSameConsecutiveChars() {
-        char[][] data = {
+        Character[][] data = {
             {'a', 'b', 'c'},
             {'b', 'i', 'i'},
             {'e', 'i', 'j'}

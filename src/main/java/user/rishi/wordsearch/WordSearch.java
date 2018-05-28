@@ -1,48 +1,66 @@
 package user.rishi.wordsearch;
 
+import org.apache.commons.cli.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import user.rishi.wordsearch.matrix.CharMatrix;
+import user.rishi.wordsearch.util.FileUtil;
+import user.rishi.wordsearch.util.StringUtil;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WordSearch {
-    private final static Log logger = LogFactory.getLog(WordSearch.class);
+    private final static Log log = LogFactory.getLog(WordSearch.class);
 
     private CharMatrix matrix;
 
-    public WordSearch(char[][] data) {
+    private WordSearch(Character[][] data) {
         this.matrix = new CharMatrix(data);
     }
 
-    public Stream<String> findMatchingWords(List<String> words) {
-        if (words == null) {
-            return Stream.empty();
-        }
+    public static void main(String... args) {
+        Stream.of(args).forEach(log::debug);
 
-        // filter out the words that match
-        return words.stream().filter(matrix::matchByMatrixDistance);
+        CommandLine cl = parseArgs(args);
+        List<String> words = StringUtil.fromCommaSeparatedString(cl.getOptionValue("words"));
+        Character[][] matrixData = FileUtil.getMatrixData(cl.getOptionValue("matrix-path"));
+
+        WordSearch wordSearch = new WordSearch(matrixData);
+        log.info("Input Matrix: " + wordSearch.matrix);
+        log.info("Input Words: " + words);
+
+        List<String> matchingWords
+            = words.stream().filter(wordSearch.matrix::matchByMatrixDistance).collect(Collectors.toList());
+
+        log.info("Matching Words: " + matchingWords);
     }
 
-    public static void main(String... args) {
-        char[][] data = new char[][]{
-                {'a', 'b', 'c'},
-                {'d', 'e', 'f'},
-                {'g', 'h', 'i'},
-                {'a', 'e', 'i'}
-        };
+    private static CommandLine parseArgs(String... args) {
+        Options options = getOptions();
+        CommandLineParser parser = new DefaultParser();
 
-        WordSearch wordSearch = new WordSearch(data);
-        logger.info("Input CharMatrix: " + wordSearch.matrix);
+        try {
+             return parser.parse(options, args);
+        }
+        catch (ParseException e) {
+            log.error("Unable to parse input arguments", e);
 
-        List<String> inputWords = Arrays.asList("efi", "edh", "fii", "fih", "ghebc", "z", "fiha");
-        logger.info("Input words: " + inputWords);
+            // wrap and throw a Runtime exception - we want the application to fail in this case
+            throw new RuntimeException(e);
+        }
 
-        List<String> matchingWords = wordSearch.findMatchingWords(inputWords).collect(Collectors.toList());
-        logger.info("Matching words: " + matchingWords);
+    }
+
+    private static Options getOptions() {
+        Options options = new Options();
+        options.addRequiredOption("mp", "matrix-path", true,
+            "Location of the matrix input file");
+        options.addRequiredOption("w", "words", true,
+            "Comma-separated list of words to query");
+
+        return options;
     }
 
 }
